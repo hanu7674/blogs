@@ -94,7 +94,7 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
         // Send notification
         dispatch(notifyActions.dbAddNotification(
           {
-            description: `${user.fullName} follow you.`,
+            description: `${user.fullName} started following you.`,
             url: `/${uid}`,
             notifyRecieverUserId: userFollowing.userId as string,
             notifierUserId: uid,

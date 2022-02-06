@@ -84,8 +84,10 @@
     },
     "userBox": {
         "followButton": "FOLLOW",
+        "unfollowButton": "UNFOLLOW",
         "cancelButton": "CANCEL",
-        "numberOfCircleButton": "${circlesCount} Circles",
+        "addToCircle": "ADD TO A CIRCLE",
+        "addToAnotherCircle": "ADD TO ANOTHER CIRCLE",
         "doneButton": "DONE",
         "groupNamePlaceholder": "Group Name",
         "createCircleTooltip": "Create Circle"

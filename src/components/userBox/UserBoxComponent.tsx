@@ -178,7 +178,17 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
       return
     }  
     if (!isFollowed) {
-      followUser!(followingCircle!.get('id'), { avatar, userId, fullName })
+      followUser!('yourSelf', { avatar, userId, fullName })
+    } else {
+      this.onRequestOpenAddCircle()
+    }
+  }
+  onUnFollowUser = (event: any) => {
+    // This prevents ghost click
+    event.preventDefault()
+    const { isFollowed, followUser, deleteFollowingUser, userId, user, followRequest, avatar, fullName } = this.props
+    if (isFollowed) {
+      deleteFollowingUser!(userId)
     } else {
       this.onRequestOpenAddCircle()
     }
@@ -342,6 +352,14 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
             </div>
           </div>
           <div style={this.styles.followButton as any}>
+            {isFollowed ? 
+              <Button
+                color='primary'
+                onClick={this.onUnFollowUser}
+                // disabled={(!isFollowed)}
+              >{translate!('userBox.unfollowButton')}
+              </Button> : ''}
+            
             <Button
               color='primary'
               onClick={this.onFollowUser}
@@ -351,7 +369,8 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
               }
             >
               {!isFollowed ? translate!('userBox.followButton')
-                : (belongCirclesCount! > 1 ? translate!('userBox.numberOfCircleButton', {circlesCount: belongCirclesCount}) : ((firstBelongCircle) ? firstBelongCircle.get('name', 'Followed') : translate!('userBox.followButton')))}
+                : (belongCirclesCount! > 1 ? translate!('userBox.addToAnotherCircle', { circlesCount: belongCirclesCount })
+                : ((firstBelongCircle) ? firstBelongCircle.get('name', 'Add to a circle ') : translate!('userBox.followButton')))}
             </Button>
           </div>
         </div>
@@ -447,9 +466,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentPro
   const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], {})
   const userBelongCircles: ImuList<any> = state.getIn(['circle', 'userTies', ownProps.userId, 'circleIdList'], ImuList())
   const isFollowed = userBelongCircles.count() > 0
-  const followingCircle = circles
-  .filter((followingCircle) => followingCircle!.get('isSystem', false) && followingCircle!.get('name') === `Following`)
-  .toArray()[0]
+  const followingCircle = circles.filter((followingCircle) => followingCircle!.get('isSystem', false) && followingCircle!.get('name') === `Following`).toArray()[0]
   const followRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleFollowUser, ownProps.userId)
   const followRequest = state.getIn(['server', 'request', followRequestId])
   const addToCircleRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleAddToCircle, ownProps.userId)

@@ -49,6 +49,7 @@
         "jsx": "react",
         "moduleResolution": "node",
         "rootDir": "src",
+        "allowUnusedLabels": false,
         "forceConsistentCasingInFileNames": true,
         "noImplicitReturns": false,
         "noImplicitThis": true,
@@ -56,7 +57,7 @@
         "strictNullChecks": true,
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": false,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
     },
     "include": [
         "src/**/*"
